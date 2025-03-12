@@ -107,7 +107,7 @@ def generate_images(generator, device, latent_dim, target_label, n_images=5):
     return gen_imgs
 
 # モデルをロード
-generator = load_model()
+generator = load_model(weights_only=False)
 
 if generator:
     # サイドバーでパラメータを設定
