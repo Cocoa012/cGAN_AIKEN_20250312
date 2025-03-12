@@ -5,6 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 import io
+import asyncio
+
+# 既存のイベントループをチェックしてなければ作る
+try:
+    asyncio.get_running_loop()
+except RuntimeError:
+    asyncio.set_event_loop(asyncio.new_event_loop())
+
 
 # タイトルとイントロの設定
 st.title("Conditional GAN MNIST画像生成")
@@ -74,7 +82,7 @@ class Discriminator(nn.Module):
 def load_model():
     try:
         # モデルのロード
-        generator = torch.load("GANgenerator.pth", map_location=device)
+        generator = torch.load("GANgenerator.pth", map_location=device, weights_only=False)
         return generator
     except Exception as e:
         st.error(f"モデルのロード中にエラーが発生しました: {e}")
@@ -106,7 +114,7 @@ def generate_images(generator, device, latent_dim, target_label, n_images=5):
     return gen_imgs
 
 # モデルをロード
-generator = load_model(weights_only=False)
+generator = load_model()
 
 if generator:
     # サイドバーでパラメータを設定
