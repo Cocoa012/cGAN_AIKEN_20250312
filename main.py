@@ -71,7 +71,6 @@ class Discriminator(nn.Module):
         return validity
 
 # 画像生成関数の定義
-@st.cache_resource
 def load_model():
     try:
         # モデルのロード
